@@ -1,0 +1,15 @@
+{
+  "name": "jwt-react",
+  "version": "1.0.0",
+  "description": "Learning implementation of JWT in Single Page Applications",
+  "main": "server/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "JWT",
+    "React"
+  ],
+  "author": "Hilman",
+  "license": "ISC"
+}
