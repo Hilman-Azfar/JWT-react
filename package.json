@@ -4,6 +4,7 @@
   "description": "Learning implementation of JWT in Single Page Applications",
   "main": "server/server.js",
   "scripts": {
+    "dev": "nodemon server/server.js && cd client && npm run start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
