@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Field, Form, Formik } from 'formik';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Wrapper from '../styles/styled'
+import { useAuth } from '../context/auth';
 
 // const Wrapper = styled.div`
 //   position: fixed;
@@ -70,23 +71,37 @@ const StyledButton = styled.button`
 `;
 
 export default function Login() {
+  let auth = useAuth();
+  let history = useHistory();
   return (
     <Wrapper>
       <Title>Welcome back!</Title>
       <Formik 
         initialValues={{
-
+          'siusername': '',
+          'sipassword': '',
+        }}
+        onSubmit={ async (values, actions) => {
+          try {
+            await auth.login(values);
+            await actions.resetForm();
+            await history.push('/home');
+          } catch (err) {
+            console.error(err);
+          }
         }}
       >
-        <StyledForm>
-          <Label>Username</Label>
-          <StyledField id='si-username' name='si-username' placeholder='E.g John smith'/>
+        {({ isSubmitting }) => (
+          <StyledForm>
+            <Label>Username</Label>
+            <StyledField id='siusername' name='siusername' placeholder='E.g John smith'/>
 
-          <Label>Password</Label>
-          <StyledField id='si-password' name='si-password' placeholder='E.g John smith'/>
+            <Label>Password</Label>
+            <StyledField id='sipassword' name='sipassword' placeholder='E.g John smith' type='password'/>
 
-          <StyledButton>Log In</StyledButton>
-        </StyledForm>
+            <StyledButton type="submit" disabled={isSubmitting}>Log In</StyledButton>
+          </StyledForm>
+        )}
       </Formik>
       
       <Text>Don't have an account?</Text>

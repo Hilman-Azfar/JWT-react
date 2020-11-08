@@ -136,7 +136,7 @@ export default function Landing() {
         <CallToAction to='/register'>
           Join for Free!
         </CallToAction>
-        <CallToAction>
+        <CallToAction to='/landing'>
           Learn more
         </CallToAction>
         <ScrollContainer>

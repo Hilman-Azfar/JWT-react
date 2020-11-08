@@ -18,7 +18,7 @@ async function register (username, password) {
       // no user
       // insert
       const hashedPassword = await hashPassword(password);
-      await chatterboxDB.collection('users').insertOne({username, hashedPassword});
+      await chatterboxDB.collection('users').insertOne({username: username, password: hashedPassword});
     }
   } catch (err) {
     throw err;

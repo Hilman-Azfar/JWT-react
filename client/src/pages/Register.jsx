@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Field, Form, Formik } from 'formik';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Wrapper from '../styles/styled'
+import { useAuth } from '../context/auth';
 
 // const Wrapper = styled.div`
 //   position: fixed;
@@ -69,26 +70,41 @@ const StyledButton = styled.button`
 `;
 
 export default function Register() {
+  let auth = useAuth();
+  let history = useHistory();
   return (
     <Wrapper>
       <Title>Let's get started!</Title>
       <Formik 
         initialValues={{
-
+          rgusername: '',
+          rgemail: '',
+          rgpassword: '',
+        }}
+        onSubmit={ async (values, actions) => {
+          try {
+            await auth.register(values);
+            await actions.resetForm();
+            await history.push('/login');
+          } catch (err) {
+            console.error(err);
+          }
         }}
       >
-        <StyledForm>
-          <Label>Username</Label>
-          <StyledField id='rg-username' name='rg-username' placeholder='E.g John smith'/>
+        {({isSubmitting}) => (
+          <StyledForm>
+            <Label>Username</Label>
+            <StyledField id='rgusername' name='rgusername' placeholder='E.g John smith'/>
 
-          <Label>Email</Label>
-          <StyledField id='rg-email' name='rg-email' placeholder='E.g John smith'/>
+            <Label>Email</Label>
+            <StyledField id='rgemail' name='rgemail' placeholder='E.g John smith' type='email'/>
 
-          <Label>Password</Label>
-          <StyledField id='rg-password' name='rg-password' placeholder='E.g John smith'/>
+            <Label>Password</Label>
+            <StyledField id='rgpassword' name='rgpassword' placeholder='E.g John smith' type='password'/>
 
-          <StyledButton>Log In</StyledButton>
-        </StyledForm>
+            <StyledButton type='submit'>Register</StyledButton>
+          </StyledForm>
+        )}
       </Formik>
       
       <Text>Already have an account?</Text>
