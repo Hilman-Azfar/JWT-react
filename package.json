@@ -4,6 +4,8 @@
   "description": "Learning implementation of JWT in Single Page Applications",
   "main": "server/server.js",
   "scripts": {
+    "heroku-postbuild": "cd client && npm i && npm run build",
+    "start": "node server/server.js",
     "dev": "nodemon server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,5 +24,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.3",
     "morgan": "^1.10.0"
+  },
+  "engines": {
+    "node": "^14.0.0"
   }
 }

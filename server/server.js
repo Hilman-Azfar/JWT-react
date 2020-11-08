@@ -13,6 +13,9 @@ app.use(express.json()); // body-parser
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// static files for production
+app.use(express.static(path.join(__dirname, '../client/build')));
+
 // logging to console
 app.use(morgan('dev'));
 
@@ -58,6 +61,13 @@ client.connect((err, db) => {
       message: `Server running: ${time}`
     })
   })
+
+  // production to serve the build react app
+  if (process.env.NODE_ENV === 'production') {
+    app.get('/*', (req, res) => {
+      res.sendFile(path.join(__dirname, '../client/build/index.html'));
+    })
+  }
 
   // auth routes
   app.use('/auth', require('./routes/auth'));
