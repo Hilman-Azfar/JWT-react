@@ -47,7 +47,7 @@ function useProvideAuth() {
         throw new Error(data.errorMessage);
       }
     } catch (err) {
-      throw err
+      throw err;
     }
   }
 
@@ -73,7 +73,7 @@ function useProvideAuth() {
       }
 
     } catch (err) {
-      throw err
+      throw err;
     }
   }
 
@@ -97,7 +97,23 @@ function useProvideAuth() {
       }
 
     } catch (err) {
-      throw err
+      throw err;
+    }
+  }
+
+  const logout = async () => {
+    try{
+      const url = '/auth/logout';
+      const res = await fetch(url);
+
+      if (res.ok) {
+        setUser(null);
+      } else {
+        throw new Error('unable to logout???')
+      }
+    } catch (err) {
+      err.message = err.message + ' -- logout'
+      throw err;
     }
   }
 
@@ -106,6 +122,7 @@ function useProvideAuth() {
     login,
     register,
     isLoggedIn,
+    logout,
   }
 }
 
