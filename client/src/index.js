@@ -1,12 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { BrowserRouter as Router } from 'react-router-dom';
+import './styles/global.css';
+import { ThemeProvider } from 'styled-components';
+import App from './pages/App';
 import reportWebVitals from './reportWebVitals';
+import { theme } from './styles/theme';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={theme}>
+      <Router>
+        <App />
+      </Router>
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
