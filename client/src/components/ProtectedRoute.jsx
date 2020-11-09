@@ -8,7 +8,7 @@ export default function ProtectedRoute({component: Component, ...rest}) {
     <Route
     {...rest}
     render={({ location }, props) =>{
-        return auth.user
+        return auth.user?.username
         ? (<Component {...props}/>)
         : (<Redirect to={{
               pathname: '/landing',
