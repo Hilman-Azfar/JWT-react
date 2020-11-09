@@ -11,7 +11,7 @@ export default function Header() {
       <Link to='/home'>Home</Link>
       <Link to='/landing'>Landing</Link>
       {
-        auth.user && <p>logged in as {auth.user}</p>
+        auth.user && <p>logged in as {auth.user.username}</p>
       }
     </header>
   )

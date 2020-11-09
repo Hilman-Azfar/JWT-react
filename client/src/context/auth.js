@@ -14,7 +14,7 @@ const authContext = createContext();
 
 // components interact with this
 function useProvideAuth() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({});
 
   const login = async ({siusername, sipassword}) => {
     try {
@@ -42,7 +42,7 @@ function useProvideAuth() {
         .split('.')[1];
 
         const payloadJSON = JSON.parse(atob(payload));
-        setUser(payloadJSON._id);
+        setUser(payloadJSON);
       } else {
         throw new Error(data.errorMessage);
       }
@@ -90,7 +90,10 @@ function useProvideAuth() {
         .split('.')[1];
 
         const payloadJSON = JSON.parse(atob(payload));
-        setUser(payloadJSON._id);
+        setUser({
+          username: payloadJSON.username,
+          id: payloadJSON._id
+        });
         return true;
       } else {
         return false;
