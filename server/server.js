@@ -5,16 +5,10 @@ const path = require('path');
 const fs = require('fs');
 const { MongoClient } = require('mongodb');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const app = express();
 
-// middleware
-app.use(express.json()); // body-parser
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-
-// static files for production
-app.use(express.static(path.join(__dirname, '../client/build')));
 
 // logging to console
 app.use(morgan('dev'));
@@ -27,12 +21,35 @@ const accessLogStream = fs.createWriteStream(
   })
 app.use(morgan('combined', { stream: accessLogStream }))
 
+// middleware
+app.use(express.json()); // body-parser
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+//cors
+let whitelist = ['http://localhost', 'http://127.0.0.1']
+let corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 ) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
+app.use(cors());
+
+// static files for production
+app.use(express.static(path.join(__dirname, '../client/build')));
+
 // connect to db
 // useCreateIndex: true, 
 const connectionOptions = { 
   useNewUrlParser: true, 
   useUnifiedTopology: true
 }
+
 const client = new MongoClient(process.env.MONGO_URI ||config.URI, connectionOptions);
 client.connect((err, db) => {
   if(err){
@@ -45,12 +62,12 @@ client.connect((err, db) => {
       })
     })
   } 
+
   // only when db is connected then we open routes
   console.log('-- db connected --');
 
   // get database
   const chatterboxDB = db.db('chatterbox');
-
   module.exports = chatterboxDB;
 
   // load routes
@@ -71,6 +88,7 @@ client.connect((err, db) => {
 
   // auth routes
   app.use('/auth', require('./routes/auth'));
+
 
   // error handling
   // catch all 404
@@ -95,11 +113,16 @@ client.connect((err, db) => {
 })
 
 
+// setup sockets
+const server = require('./socket')(app);
+
 const PORT = config.PORT || 5000;
 
-const server = app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`-- Server listening on port ${PORT} --`);
 })
+
+
 
 function shutdown() {
   console.log('-- Server & db connection closing --');
