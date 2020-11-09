@@ -6,14 +6,20 @@ import { ThemeProvider } from 'styled-components';
 import App from './pages/App';
 import reportWebVitals from './reportWebVitals';
 import { theme } from './styles/theme';
+import { ProvideAuth } from './context/auth';
+import ErrorBoundary from './components/ErrorBoundary';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <Router>
-        <App />
-      </Router>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider theme={theme}>
+        <ProvideAuth>
+          <Router>
+            <App />
+          </Router>
+        </ProvideAuth>
+      </ThemeProvider>
+    </ErrorBoundary>
   </React.StrictMode>,
   document.getElementById('root')
 );
