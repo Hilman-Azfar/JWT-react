@@ -4,7 +4,7 @@
   "description": "Learning implementation of JWT in Single Page Applications",
   "main": "server/server.js",
   "scripts": {
-    "dev": "nodemon server/server.js && cd client && npm run start",
+    "dev": "nodemon server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -12,5 +12,15 @@
     "React"
   ],
   "author": "Hilman",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.5",
+    "csurf": "^1.11.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.6.3",
+    "morgan": "^1.10.0"
+  }
 }

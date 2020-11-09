@@ -36,9 +36,9 @@ const StyledSection = styled.section`
 `;
 
 const BannerTitle = styled.h1`
-  font-size: 3.5rem;
+  font-size: 3.7rem;
   font-weight: 300;
-  margin: 1.8em 0 0 0;
+  margin: 1.4em 0 0 0;
 
   @media ${({theme}) => theme.media.pc} {
     font-size: 5rem;
@@ -67,11 +67,11 @@ const CallToAction = styled(Link)`
 const IconWrapper = styled.div`
   height: 200px;
   width: 75%;
-  margin: 30px auto;
+  margin: 40px auto 45px auto;
 `;
 
 const ScrollContainer = styled.div`
-  margin: 60px auto 10px auto;
+  margin: 45px auto 10px auto;
   width: max-content;
 `;
 
