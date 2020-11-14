@@ -5,7 +5,8 @@ module.exports = {
   login,
   register,
   verify,
-  logout
+  logout,
+  authorize
 }
 
 async function login(req, res, next) {
@@ -55,6 +56,21 @@ async function verify(req, res, next) {
       throw new Error('Access denied!');
     }
 
+  } catch (err) {
+    err.name = 'VerificationError';
+    err.status = 403;
+    next(err)
+  }
+}
+
+async function authorize(req, res, next) {
+  try {
+    const token = req.cookies['jwt-payload'] + '.' + req.cookies['jwt-signature'];
+    const valid = await checkToken(token);
+    if (valid) {
+      req.username = valid.username;
+      next();
+    }
   } catch (err) {
     err.name = 'VerificationError';
     err.status = 403;

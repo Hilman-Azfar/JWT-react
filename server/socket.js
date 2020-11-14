@@ -1,3 +1,5 @@
+let clients = new Map();
+
 module.exports = (app) => {
 
   const server = require('http').createServer(app);
@@ -9,18 +11,25 @@ module.exports = (app) => {
   console.log('-- Setting up sockets --');
 
   io.on('connection', socket => {
+    let id = socket.handshake.query.id;
     console.log('---------------');
-    console.log(socket.handshake.query.username, 'connected');
+    console.log(id, 'connected');
     console.log('---------------');
+    clients.set(id, socket.id);
 
-    socket.emit('message', 'pinggu chinggu');
-
-    socket.on('message', data => {
-      io.emit('message', data);
+    socket.on('join', ({roomid, prev}) => {
+      socket.leave(prev);
+      socket.join(roomid);
     })
 
+    socket.on('sendMessage', ({roomid, content, from}) => {
+      io.to(roomid).emit('message', {content, from})
+    })
+
+
     socket.on('disconnect', () => {
-      console.log(socket.handshake.query.username, 'disconnected');
+      console.log(id, 'disconnected');
+      clients.delete(id);
     })
   })
   

@@ -89,6 +89,9 @@ client.connect((err, db) => {
   // auth routes
   app.use('/auth', require('./routes/auth'));
 
+  // chat routes
+  app.use('/chat', require('./routes/chat'));
+
 
   // error handling
   // catch all 404

@@ -90,10 +90,7 @@ function useProvideAuth() {
         .split('.')[1];
 
         const payloadJSON = JSON.parse(atob(payload));
-        setUser({
-          username: payloadJSON.username,
-          id: payloadJSON._id
-        });
+        setUser(payloadJSON);
         return true;
       } else {
         return false;
